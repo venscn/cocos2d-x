@@ -1,31 +1,26 @@
-set(AUDIO_SRC
-  linux/SimpleAudioEngineFMOD.cpp
-  linux/FmodAudioPlayer.cpp
+set(AUDIO_M_SRC
+    mac/CDAudioManager.m
+    mac/CDOpenALSupport.m
+    mac/CocosDenshion.m
+    mac/SimpleAudioEngine_objc.m
 )
 
-# architecture
-if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-set(ARCH_DIR "64-bit")
-else()
-set(ARCH_DIR "32-bit")
-endif()
-
-include_directories(
-  ../../external/linux-specific/fmod/include/${ARCH_DIR}
+set(AUDIO_MM_SRC
+    mac/CDXMacOSXSupport.mm
+    mac/SimpleAudioEngine.mm
 )
+
+
+set(CMAKE_CXX_FLAGS "")
+
+SET_SOURCE_FILES_PROPERTIES(${AUDIO_MM_SRC}
+  PROPERTIES
+  COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++ -std=c++11 -stdlib=libc++")
+
 
 add_library(audio STATIC
-  ${AUDIO_SRC}
-)
-
-if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-set(FMOD_LIB "fmodex64")
-else()
-set(FMOD_LIB "fmodex")
-endif()
-
-target_link_libraries(audio
-  ${FMOD_LIB}
+  ${AUDIO_M_SRC}
+  ${AUDIO_MM_SRC}
 )
 
 set_target_properties(audio

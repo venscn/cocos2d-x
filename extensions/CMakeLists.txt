@@ -23,6 +23,8 @@ set(EXTENSIONS_SRC
   GUI/CCScrollView/CCTableViewCell.cpp
   physics-nodes/CCPhysicsDebugNode.cpp
   physics-nodes/CCPhysicsSprite.cpp
+
+  GUI/CCEditBox/CCEditBoxImplMac.mm
 )
 
 include_directories(

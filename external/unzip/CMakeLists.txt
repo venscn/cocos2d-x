@@ -1,3 +1,6 @@
+
+add_definitions(-DUSE_FILE32API=1)
+
 set(UNZIP_SRC
   ioapi.cpp
   unzip.cpp

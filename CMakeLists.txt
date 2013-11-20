@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 project (Cocos2dx)
 
 # The version number
@@ -10,7 +10,7 @@ include(build/BuildHelpers.CMakeLists.txt)
 option(USE_CHIPMUNK "Use chipmunk for physics library" ON)
 option(USE_BOX2D "Use box2d for physics library" OFF)
 option(DEBUG_MODE "Debug or release?" ON)
-option(BUILD_LIBS_LUA "Build lua libraries" ON)
+option(BUILD_LIBS_LUA "Build lua libraries" OFF)
 option(BUILD_GUI "Build GUI library" ON)
 option(BUILD_NETWORK "Build network library" ON)
 option(BUILD_EXTENSIONS "Build extension library" ON)
@@ -21,9 +21,8 @@ option(BUILD_EDITOR_COCOSBUILDER "Build editor support for cocosbuilder" ON)
 
 option(BUILD_HelloCpp "Only build HelloCpp sample" ON)
 option(BUILD_TestCpp "Only build TestCpp sample" ON)
-option(BUILD_HelloLua "Only build HelloLua sample" ON)
-option(BUILD_TestLua "Only build TestLua sample" ON)
-
+option(BUILD_HelloLua "Only build HelloLua sample" OFF)
+option(BUILD_TestLua "Only build TestLua sample" OFF)
 
 if(DEBUG_MODE)
   set(CMAKE_BUILD_TYPE DEBUG)
@@ -31,18 +30,24 @@ else(DEBUG_MODE)
   set(CMAKE_BUILD_TYPE RELEASE)
 endif(DEBUG_MODE)
 
-set(CMAKE_C_FLAGS_DEBUG "-g -Wall -DCOCOS2D_DEBUG=1")
-set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+if (APPLE)
 
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=c99")
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11")
+    add_definitions(-DCC_TARGET_OS_MAC=1)
+
+    message( STATUS "Setting Xcode attributes")
+    set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
+    set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+    set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")   
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+
+endif (APPLE)
 
 if(USE_CHIPMUNK)
   message("Using chipmunk ...")
-  add_definitions(-DLINUX -DCC_ENABLE_CHIPMUNK_INTEGRATION=1)
+  add_definitions(-DCC_ENABLE_CHIPMUNK_INTEGRATION=1)
 elseif(USE_BOX2D)
   message("Using box2d ...")
-  add_definitions(-DLINUX -DCC_ENABLE_BOX2D_INTEGRATION=1)
+  add_definitions(-DCC_ENABLE_BOX2D_INTEGRATION=1)
 else(USE_CHIPMUNK)
   message(FATAL_ERROR "Must choose a physics library.")
 endif(USE_CHIPMUNK)
@@ -60,33 +65,35 @@ include_directories(
   cocos/audio/include
   cocos/2d
   cocos/2d/platform
-  cocos/2d/platform/linux
+  cocos/2d/platform/mac
   cocos/base
   cocos/physics
   cocos/editor-support
   cocos/math/kazmath/include
   extensions
   external
-  external/jpeg/include/linux
-  external/tiff/include/linux
-  external/webp/include/linux
-  external/glfw3/include/linux
-  external/curl/include/linux/${ARCH_DIR}
   external/tinyxml2
   external/unzip
   external/chipmunk/include/chipmunk
-  external/freetype2/include/linux
-  external/linux-specific/fmod/include/${ARCH_DIR}
+  external/jpeg/include/mac
+  external/png/include/mac
+  external/tiff/include/mac
+  external/webp/include/mac
+  external/glfw3/include/mac
+  external/websockets/include/mac
+  external/freetype2/include/mac
+  
 )
 
 link_directories(
   /usr/local/lib
-  ${CMAKE_SOURCE_DIR}/external/jpeg/prebuilt/linux/${ARCH_DIR}
-  ${CMAKE_SOURCE_DIR}/external/tiff/prebuilt/linux/${ARCH_DIR}
-  ${CMAKE_SOURCE_DIR}/external/webp/prebuilt/linux/${ARCH_DIR}
-  ${CMAKE_SOURCE_DIR}/external/freetype2/prebuilt/linux/${ARCH_DIR}
-  ${CMAKE_SOURCE_DIR}/external/curl/prebuilt/linux/${ARCH_DIR}
-  ${CMAKE_SOURCE_DIR}/external/linux-specific/fmod/prebuilt/${ARCH_DIR}
+  ${CMAKE_SOURCE_DIR}/external/jpeg/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/png/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/tiff/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/webp/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/glfw3/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/freetype2/prebuilt/mac
+  ${CMAKE_SOURCE_DIR}/external/websockets/prebuilt/mac
 )
 
 
