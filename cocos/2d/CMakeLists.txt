@@ -107,14 +107,20 @@ set(COCOS2D_SRC
   platform/CCThread.cpp
   platform/CCEGLViewProtocol.cpp
   platform/CCFileUtils.cpp
-  platform/linux/CCStdC.cpp
-  platform/linux/CCFileUtilsLinux.cpp
-  platform/linux/CCCommon.cpp
-  platform/linux/CCApplication.cpp
-  platform/linux/CCEGLView.cpp
-  platform/linux/CCImage.cpp
-  platform/linux/CCDevice.cpp
+  platform/mac/CCApplication.mm
+  platform/mac/CCCommon.mm
+  platform/mac/CCDevice.mm
+  platform/mac/CCDirectorCaller.mm
+  platform/mac/CCEGLView.mm
+  platform/mac/CCEventDispatcherMac.mm
+  platform/mac/CCImage.mm
+  platform/mac/CCWindow.mm
+  platform/mac/EAGLView.mm
+  platform/apple/CCLock.cpp
+  platform/apple/CCFileUtilsApple.mm
+  platform/apple/CCThread.mm
 )
+  
 
 include(../physics/CMakeLists.txt)
 
@@ -122,6 +128,7 @@ add_library(cocos2d STATIC
   ${COCOS2D_SRC}
   ${COCOS_PHYSICS_SRC}
 )
+
 target_link_libraries(cocos2d
   cocosbase
   chipmunk_static
@@ -129,18 +136,30 @@ target_link_libraries(cocos2d
   kazmath
   unzip
   jpeg
-  webp
   tiff
   freetype
-  fontconfig
   png
   pthread
-  glfw
-  GLEW
-  GL
-  X11
-  rt
   z
+  glfw3
+  sqlite3
+  curl
+  webp
+  network
+  "-framework Foundation"
+  "-framework AudioUnit"
+  "-framework AudioToolbox"
+  "-framework ApplicationServices"
+  "-framework OpenAL"
+  "-framework Carbon"
+  "-framework Cocoa"
+  "-framework CoreAudio"
+  "-framework ForceFeedback"
+  "-framework IOKit"
+  "-framework OpenGL"
+  "-framework CoreServices"
+  "-framework QuartzCore"
+  "-framework IOKit"
 )
 
 set_target_properties(cocos2d

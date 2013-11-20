@@ -46,11 +46,14 @@ set(SAMPLE_SRC
   Classes/ExtensionsTest/ControlExtensionTest/CCControlSwitchTest/CCControlSwitchTest.cpp
   Classes/ExtensionsTest/ControlExtensionTest/CCControlPotentiometerTest/CCControlPotentiometerTest.cpp
   Classes/ExtensionsTest/ControlExtensionTest/CCControlStepperTest/CCControlStepperTest.cpp
+  Classes/ExtensionsTest/EditBoxTest/EditBoxTest.cpp
   Classes/ExtensionsTest/TableViewTest/TableViewTestScene.cpp
   Classes/ExtensionsTest/TableViewTest/CustomTableViewCell.cpp
   Classes/ExtensionsTest/ExtensionsTest.cpp
   Classes/ExtensionsTest/NotificationCenterTest/NotificationCenterTest.cpp
   Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp
+  Classes/ExtensionsTest/NetworkTest/SocketIOTest.cpp
+  Classes/ExtensionsTest/NetworkTest/WebSocketTest.cpp
   Classes/ExtensionsTest/CocoStudioArmatureTest/ArmatureScene.cpp
   Classes/ExtensionsTest/CocoStudioComponentsTest/ComponentsTestScene.cpp
   Classes/ExtensionsTest/CocoStudioComponentsTest/EnemyController.cpp
@@ -130,7 +133,7 @@ set(SAMPLE_SRC
   Classes/AppDelegate.cpp
   Classes/BaseTest.cpp
   Classes/VisibleRect.cpp
-  proj.linux/main.cpp
+  proj.mac/main.cpp
 )
 
 include_directories(
@@ -144,14 +147,16 @@ add_executable(${APP_NAME}
 
 target_link_libraries(${APP_NAME}
   gui
-  network
-  spine
-  cocostudio
-  cocosbuilder
   extensions
   audio
   cocos2d
+  cocosbuilder
+  cocostudio
+  spine
   box2d
+  webp
+  network
+  websockets
 )
 
 set(APP_BIN_DIR "${CMAKE_SOURCE_DIR}/bin/${APP_NAME}")

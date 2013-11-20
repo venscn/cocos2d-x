@@ -24,6 +24,8 @@ THE SOFTWARE.
 //#import <UIKit/UIKit.h>
 #include "CCThread.h"
 
+#import <Foundation/NSAutoreleasePool.h>
+
 NS_CC_BEGIN
 
 Thread::~Thread()
